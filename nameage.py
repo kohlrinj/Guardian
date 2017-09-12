@@ -4,6 +4,15 @@ starttime = time.time()
 
 print('What is your name?')
 myName = input()
+
+while myName != 'Nick':
+    if myName == 'your name':
+        print("Ha ha, very funny... Seriously, waht's your name?")
+        myName = input()
+    else:
+        print("That's not your real name! Why are you lying? What's your real name?")
+        myName = input()
+
 print('Hello, ' + myName + '. That is a good name. How old are you?')
 myAge = int(input())
 

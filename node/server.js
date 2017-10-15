@@ -35,10 +35,10 @@ var server = http.createServer(function(req, res){
         h = h % 24;
         //Total Memory
         totalMemory = os.totalmem();
-        totalMemoryMB = (totalMemory/1000000).toFixed(2);
+        totalMemoryMB = (totalMemory/1048576).toFixed(2);
         //Free Memory
         freeMemory = os.freemem();
-        freeMemoryMB = (freeMemory/1000000).toFixed(2);
+        freeMemoryMB = (freeMemory/1048576).toFixed(2);
         //CPU Count
         cpuCount = os.cpus().length;
         //HTML
@@ -52,8 +52,8 @@ var server = http.createServer(function(req, res){
                 <p>Hostname: ${myHostName}</p>
                 <p>IP: ${ip}</p>
                 <p>Server Uptime: ${d} Days, ${h} Hours, ${m} Minutes, ${s} Seconds </p>
-                <p>Total Memory: ${totalMemoryMB}GB </p>
-                <p>Free Memory: ${freeMemoryMB}GB</p>
+                <p>Total Memory: ${totalMemoryMB}MB</p>
+                <p>Free Memory: ${freeMemoryMB}MB</p>
                 <p>CPUs: ${cpuCount}</p>
             </body>
         </html>

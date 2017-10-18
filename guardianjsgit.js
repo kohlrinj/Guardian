@@ -1,26 +1,47 @@
-import gspread
-import discord
-from discord.ext.commands import Bot
-from discord.ext import commands
-from oauth2client.service_account import ServiceAccountCredentials
+const Discord = require('discord.js');
+const bot = new Discord.Client();
 
-Client = discord.Client
-bot_prefix = "?"
-client = commands.Bot(command_prefix=bot_prefix)
+const google = require('googleapis')
+const credentials = require('./creds.json')
 
-@client.event
-async def on_ready():
-    print("Bot Online!")
-    print("Name: {}".format(client.user.name))
-    print("ID: {}".format(client.user.id))
+const auth = new google.auth.JWT(
+    credentials.client_email,
+    null,
+    credentials.private_key,
+    [
+        'https://www.googleapis.com/auth/spreadsheets'
+    ],
+    null
+)
 
-@client.command(pass_context=True)
-async def ping(ctx):
-    await client.say("Pong!")
+google.options({auth})
 
-channels = [
+const sheets = google.sheets('v4')
+const spreadsheetId = '1HEq7egPjgCLJcHlqpdJnDw1XrNYWUdfU44vuLlH2sNU'
+
+
+
+//auth.authorize((err, tokens) => {
+//     console.log(tokens)
+//})
+
+bot.on('message', (message) => {
+    if(message.content == 'ping') {
+        message.reply('pong');
+    }
+});
+
+bot.on("ready", () => {
+    // This event will run if the bot starts, and logs in, successfully.
+    console.log(`Bot has started, with ${bot.users.size} users, in ${bot.channels.size} channels of ${bot.guilds.size} guilds.`); 
+    // Example of changing the bot's playing game to something useful. `client.user` is what the
+    // docs refer to as the "ClientUser".
+    bot.user.setGame(`on ${bot.guilds.size} servers`);
+});
+
+let channels = [
     'haven-main-story',
-    'asgard-main story',
+    'asgard-main-story',
     'aegis-main-story',
     'aegis-main-story-two',
     'muramasa-main-story',
@@ -110,22 +131,21 @@ channels = [
     'astral-studios-one',
     'astral-studios-two',
     'citadel-one',
-]
-# use creds to create a client to interact with the Google Drive API
-scope = ['https://spreadsheets.google.com/feeds']
-creds = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
-shclient = gspread.authorize(creds)
- 
-# Find a workbook by name and open the first sheet
-# Make sure you use the right name here.
-sheet = shclient.open('GUARDIAN posts').sheet1
- 
-# Extract and print all of the values
-@client.event
-async def on_message(message):
-    if message.channel.name in channels:
-        row = [message.author, message.channel.name, message.timestamp]
-        index = 1
-        sheet.insert_row(row, index)
+];
 
-client.run(
+bot.on('message', (message) => {
+    if(channels.indexOf(message.channel.name) > -1 ) {
+        sheets.spreadsheets.values.append({
+            spreadsheetId,
+            range: 'posts!all',
+            valueInputOption: 'USER_ENTERED',
+            //includeAllValuesInResponse: true,
+            resource: {
+                values: [[message.author.username, message.channel.name, message.createdAt, ]]
+            }
+        })
+    }
+
+})
+
+bot.login("Insert_Token_Here");

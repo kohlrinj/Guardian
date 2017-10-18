@@ -2,3 +2,5 @@ creds.json
 node/guardianbot.js
 python/guardianbot.py
 node_modules
+guardianjsbot.js
+client_secret.json

@@ -1,5 +1,5 @@
 //Nick Kohlrieser
-//Discord.js is how we talk to the Discord api. Use <npm install discordjs> to install this module.
+//Discord.js is how we talk to the Discord api. Use `npm install discordjs` to install this module.
 const Discord = require('discord.js');
 //bot is where the discord client pulls calls from the code
 const bot = new Discord.Client();
@@ -8,7 +8,7 @@ const channels = require('./channels.json')
 //json file holding your Discord bot login credentials and spreadsheet ID
 const authorization = require('./auth.json')
 
-//Googleapis is how we add to Sheets with the code. Use <npm install googleapis> to install this module.
+//Googleapis is how we add to Sheets with the code. Use `npm install googleapis` to install this module.
 const google = require('googleapis')
 //This is the json file you get from adding a service account to your Google Cloud Platform account.
 const credentials = require('./creds.json')
@@ -187,7 +187,7 @@ bot.on('message', (message) => {
         //of the person sending the message, the channel name and what time it was created in UTC.
         sheets.spreadsheets.values.append({
             spreadsheetId,
-            range: 'posts!all',
+            range: 'Sheet1!all',
             valueInputOption: 'USER_ENTERED',
             resource: {
                 values: [[message.author.username, message.channel.name, message.createdAt]]

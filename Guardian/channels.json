@@ -1,0 +1,10 @@
+{
+//These are the channels that will send data to google drive.
+//I added general(the default text channel) for testing purposes.
+"read":[
+    "general"
+],
+//These are the channels that commands will work in.
+"command":[
+    "general"
+]}
